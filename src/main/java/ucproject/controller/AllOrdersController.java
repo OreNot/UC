@@ -19,10 +19,19 @@ public class AllOrdersController {
     public StatementRepo statementRepo;
 
     @GetMapping("/allorders")
-    public String allorders(Map<String, Object> model) {
+    public String allorders(@RequestParam(required = false, defaultValue = "") String filter, Map<String, Object> model) {
         Iterable<Statement> statements = statementRepo.findAll();
-        model.put("statements", statements);
 
+
+        if (filter != null && !filter.isEmpty()) {
+            statements = statementRepo.findByComment(filter);
+        }
+        else
+        {
+            statements = statementRepo.findAll();
+        }
+        model.put("statements", statements);
+        model.put("filter", filter);
         return "allorders";
     }
 
@@ -49,21 +58,7 @@ public class AllOrdersController {
         return "addorder";
     }
 
-    @PostMapping("filter")
-    public String filter(@RequestParam String filter, Map<String, Object> model)
-    {
-        Iterable<Statement> statements;
-        if (filter != null && !filter.isEmpty()) {
-            statements = statementRepo.findByComment(filter);
-        }
-        else
-        {
-            statements = statementRepo.findAll();
-        }
-        model.put("statements", statements);
 
-        return "allorders";
-    }
 
     @GetMapping("/logout")
     public String logout(Map<String, Object> model)
