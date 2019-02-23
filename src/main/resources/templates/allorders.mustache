@@ -7,9 +7,31 @@
 </head>
 <body>
 
-<div>
-    Hello, {{name}}!
-</div>
+<div>Список заявлений</div>
+    {{#statements}}
+    <div>
+    <b>{{id}}</b>
+    <b>{{comment}}</b>
+    </div>
+    {{/statements}}
 
+
+    <br>
+    <br>
+    <form method="post" action="filter">
+        <input type="text" list="listOrg" name="filter"  placeholder="User">
+        <datalist id="listOrg">
+
+            <option value="2"></option>
+            <option value="hello"></option>
+
+            {{orgList}}
+        </datalist>
+
+        <button type="submit">Найти</button>
+    </form>
+
+    <br>
+    <a href="addorder">Добавить</a>
 </body>
 </html>
