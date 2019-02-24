@@ -1,6 +1,7 @@
 package ucproject.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,9 +11,9 @@ import ucproject.domain.*;
 import ucproject.repos.*;
 
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
+@PreAuthorize("hasAuthority('USER')")
 public class AllOrdersController {
 
     @Autowired
@@ -29,7 +30,7 @@ public class AllOrdersController {
 
     @Autowired
     public ClientRepo clientRepo;
-
+/*
     @GetMapping("/allorders")
     public String allorders(@RequestParam(required = false, defaultValue = "") String filter,
                             @RequestParam(required = false, defaultValue = "0") String radio,
@@ -50,7 +51,7 @@ public class AllOrdersController {
         model.put("filter", filter);
         return "allorders";
     }
-
+*/
     @GetMapping("/allmyorders")
     public String allorders(@AuthenticationPrincipal User user,
                             @RequestParam (required = false, defaultValue = "") String status,
@@ -74,7 +75,7 @@ public class AllOrdersController {
 
         return "allmyorders";
     }
-
+/*
     @GetMapping("/setexec")
     public String setexec(@RequestParam(required = false, defaultValue = "") String executor,
                             @RequestParam(required = false, defaultValue = "0") String radio,
@@ -99,7 +100,7 @@ public class AllOrdersController {
         model.put("statements", statements);
         return "setexec";
     }
-
+*/
     @GetMapping("/addorder")
     public String addorder(Map<String, Object> model)
     {
