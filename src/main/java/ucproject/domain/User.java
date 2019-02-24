@@ -27,6 +27,15 @@ public class User implements UserDetails{
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+
+    public Fio getFio() {
+        return fio;
+    }
+
+    public void setFio(Fio fio) {
+        this.fio = fio;
+    }
+
     public Long getId() {
         return id;
     }

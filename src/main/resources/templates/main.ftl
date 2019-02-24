@@ -4,4 +4,5 @@
 
 <div>Hello, user!</div>
 <a href="allorders">Заявления</a>
+<a href="/user">Users</a>
 </@c.page>
