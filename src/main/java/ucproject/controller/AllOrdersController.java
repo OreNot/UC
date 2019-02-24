@@ -6,12 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ucproject.domain.Statement;
-import ucproject.domain.User;
-import ucproject.repos.StatementRepo;
-import ucproject.repos.UserRepo;
+import ucproject.domain.*;
+import ucproject.repos.*;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class AllOrdersController {
@@ -22,20 +21,23 @@ public class AllOrdersController {
     @Autowired
     public UserRepo userRepo;
 
-    @GetMapping("/allorders")
-    public String allorders(@RequestParam(required = false, defaultValue = "") String filter, Map<String, Object> model) {
+    @Autowired
+    public FioRepo fioRepo;
 
+    @Autowired
+    public OrganizationRepo organizationRepo;
+
+    @Autowired
+    public ClientRepo clientRepo;
+
+    @GetMapping("/allorders")
+    public String allorders(@RequestParam(required = false, defaultValue = "") String filter,
+                            @RequestParam(required = false, defaultValue = "0") String radio,
+                            Map<String, Object> model) {
+
+        String s = radio;
         Iterable<Statement> statements = statementRepo.findAll();
 
-/*
-        if (filter != null && !filter.isEmpty()) {
-            statements = statementRepo.findByComment(filter);
-        }
-        else
-        {
-            statements = statementRepo.findAll();
-        }
-*/
         if (filter != null && !filter.isEmpty()) {
 
             statements = statementRepo.findByAutor(userRepo.findByUsername(filter));
@@ -49,7 +51,54 @@ public class AllOrdersController {
         return "allorders";
     }
 
+    @GetMapping("/allmyorders")
+    public String allorders(@AuthenticationPrincipal User user,
+                            @RequestParam (required = false, defaultValue = "") String status,
+                            @RequestParam(required = false, defaultValue = "0") String radio,
+                            Map<String, Object> model) {
 
+
+        Iterable<Statement> statements = statementRepo.findByExecutor(user);
+
+        Statement updStatement;
+
+        if (!status.equals("") && !radio.equals(""))
+        {
+            updStatement = statementRepo.findById(Integer.parseInt(radio)).get();
+            updStatement.setStatus(status);
+            statementRepo.save(updStatement);
+        }
+
+        statements = statementRepo.findByExecutor(user);
+        model.put("statements", statements);
+
+        return "allmyorders";
+    }
+
+    @GetMapping("/setexec")
+    public String setexec(@RequestParam(required = false, defaultValue = "") String executor,
+                            @RequestParam(required = false, defaultValue = "0") String radio,
+                            Map<String, Object> model) {
+
+        String s = radio;
+        Iterable<Statement> statements = statementRepo.findByExecutorNull();
+
+        Statement upStatement;
+        User user;
+        if (!radio.equals("0"))
+        {
+            upStatement = statementRepo.findById(Integer.parseInt(radio)).get();
+            user = userRepo.findByUsername(executor);
+            upStatement.setExecutor(user);
+            statementRepo.save(upStatement);
+            statements = statementRepo.findByExecutorNull();
+        }
+
+        //statementRepo.save();
+
+        model.put("statements", statements);
+        return "setexec";
+    }
 
     @GetMapping("/addorder")
     public String addorder(Map<String, Object> model)
@@ -67,10 +116,22 @@ public class AllOrdersController {
     public String add(
             @AuthenticationPrincipal User user,
             @RequestParam String comment,
+            @RequestParam String fio,
+            @RequestParam String organization,
             Map<String, Object> model)
     {
-        Statement statement = new Statement(comment, user);
+        Fio newFio = new Fio(fio);
+        fioRepo.save(newFio);
+
+        Organization newOrg = new Organization(organization);
+        organizationRepo.save(newOrg);
+
+        Client newClient = new Client(newFio, newOrg);
+        clientRepo.save(newClient);
+
+        Statement statement = new Statement(comment, user, newClient, "Зарегистрировано");
         statementRepo.save(statement);
+
         return "addorder";
     }
 

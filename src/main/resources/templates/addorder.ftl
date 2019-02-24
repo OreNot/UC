@@ -2,6 +2,8 @@
 <@c.page>
 <div>
     <form method="post">
+        <input type="text" name="fio" placeholder="ФИО"/>
+        <input type="text" name="organization" placeholder="Организация"/>
         <input type="text" name="comment" placeholder="Комментарий"/>
         <input type="hidden" name="_csrf" value="${_csrf.token}">
         <button type="submit">Зарегистрировать</button>

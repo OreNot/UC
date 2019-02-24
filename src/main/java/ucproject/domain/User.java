@@ -15,6 +15,11 @@ public class User implements UserDetails{
     private Long id;
     private String username;
     private String password;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "fio_id")
+    private Fio fio;
+
     private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
