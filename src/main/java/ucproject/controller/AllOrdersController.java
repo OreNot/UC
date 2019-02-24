@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ucproject.domain.Statement;
 import ucproject.domain.User;
 import ucproject.repos.StatementRepo;
+import ucproject.repos.UserRepo;
 
 import java.util.Map;
 
@@ -18,13 +19,26 @@ public class AllOrdersController {
     @Autowired
     public StatementRepo statementRepo;
 
+    @Autowired
+    public UserRepo userRepo;
+
     @GetMapping("/allorders")
     public String allorders(@RequestParam(required = false, defaultValue = "") String filter, Map<String, Object> model) {
+
         Iterable<Statement> statements = statementRepo.findAll();
 
-
+/*
         if (filter != null && !filter.isEmpty()) {
             statements = statementRepo.findByComment(filter);
+        }
+        else
+        {
+            statements = statementRepo.findAll();
+        }
+*/
+        if (filter != null && !filter.isEmpty()) {
+
+            statements = statementRepo.findByAutor(userRepo.findByUsername(filter));
         }
         else
         {
@@ -34,6 +48,8 @@ public class AllOrdersController {
         model.put("filter", filter);
         return "allorders";
     }
+
+
 
     @GetMapping("/addorder")
     public String addorder(Map<String, Object> model)
