@@ -33,6 +33,8 @@ public class Statement {
 
     private String status;
 
+    private String filename;
+
     public Statement() {
     }
 
@@ -46,6 +48,13 @@ public class Statement {
 
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
     public String getStatus() {
         return status != null ? status : "none";

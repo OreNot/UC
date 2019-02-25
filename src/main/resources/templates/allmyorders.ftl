@@ -24,7 +24,7 @@
 
     <div>Список заявлений</div>
     <table border="1">
-        <tr><td>Id</td><td>Date</td><td>Org</td><td>Fio</td><td>User</td><td>comment</td><td>Executor</td><td>Status</td><td>Radio</td></tr>
+        <tr><td>Id</td><td>Date</td><td>Org</td><td>Fio</td><td>User</td><td>comment</td><td>Executor</td><td>Status</td><td>File</td><td>Radio</td></tr>
         <#list statements as statement>
             <!-- <div>-->
             <tr>
@@ -36,6 +36,7 @@
                 <td>${statement.comment}</td>
                 <td>${statement.executorName}</td>
                 <td>${statement.status}</td>
+                <td><#if statement.filename??><a href="file:///${statement.filename}" target="_blank">Файл заявления</a></#if></td>
                 <td><input type="radio" name="radio" value="${statement.id}"></td>
             </tr>
             <!--</div>-->
