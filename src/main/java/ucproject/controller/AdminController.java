@@ -5,8 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ucproject.domain.Statement;
-import ucproject.domain.User;
+import ucproject.domain.*;
 import ucproject.repos.*;
 
 import java.util.Map;
@@ -33,20 +32,48 @@ public class AdminController {
     @GetMapping("/allorders")
     public String allorders(@RequestParam(required = false, defaultValue = "") String filter,
                             @RequestParam(required = false, defaultValue = "0") String radio,
+                            @RequestParam(required = false, defaultValue = "0") String radiofilter,
                             Map<String, Object> model) {
 
+        filter = filter.replaceAll(",", "");
         String s = radio;
         Iterable<Statement> statements = statementRepo.findAll();
 
         if (filter != null && !filter.isEmpty()) {
 
-            statements = statementRepo.findByAutor(userRepo.findByUsername(filter));
+            switch (radiofilter) {
+
+                case "executorfilter" :
+                    if (filter.replaceAll(",", "").equals("Все"))
+                    {
+                        statements = statementRepo.findAll();
+                    }
+                    else {
+                        statements = statementRepo.findByExecutor(userRepo.findByUsername(filter));
+                    }
+                break;
+
+                case  "orgfilter" :
+                    Organization upOrg = organizationRepo.findByOrgNameContaining(filter.replaceAll(",", ""));
+                    Client upClientByOrg = clientRepo.findByOrganization(upOrg);
+                    statements = statementRepo.findByClient(upClientByOrg);
+                    break;
+
+                case  "fiofilter" :
+                    Fio updFio = fioRepo.findByFioContaining(filter.replaceAll(",", ""));
+                    Client upClientByFio = clientRepo.findByFio(updFio);
+                    statements = statementRepo.findByClient(upClientByFio);
+                    break;
+
+
+            }
         }
         else
         {
             statements = statementRepo.findAll();
         }
         model.put("statements", statements);
+        model.put("usercol", statementRepo.findByStatusNotLikeAndExecutor("В архиве", userRepo.findByUsername("user")).size());
         model.put("filter", filter);
         return "allorders";
     }

@@ -40,7 +40,7 @@ public class Statement {
     public Statement() {
     }
 
-    public Statement(String comment, User user, Client client, String status) {
+    public Statement(User user, Client client, String comment, String status) {
         //this.regDate = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date());
         this.regDate = new Date();
         this.autor = user;
@@ -108,10 +108,16 @@ public class Statement {
         return executor != null ? executor.getUsername() : "Не назначен";
     }
 
+    public String getExecutorRealName()
+    {
+        return executor.getFio().getFio() != null ? executor.getFio().getFio() : "Не назначен";
+    }
+
     public String getClientOrg()
     {
         return client != null ? client.getOrganization().getOrgName() : "none";
     }
+
 
     public String getClientFio()
     {

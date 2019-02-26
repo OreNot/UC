@@ -5,13 +5,20 @@
 <div>
     <@l.logout/>
 </div>
-
+<script language="JavaScript">
+    <!-- hide
+    function openNewWin(url) {
+        myWin= open(url);
+    }
+    // -->
+</script>
 
 <br>
 <br>
-<form method="post" action="addtoarchive" enctype="multipart/form-data">
+
+<form method="post" enctype="multipart/form-data">
     <input type="file" name="file" placeholder="Файл"/>
-
+    <input type="hidden" name="_csrf" value="${_csrf.token}">
     <button type="submit">В архив</button>
 
     <div>Список заявлений</div>

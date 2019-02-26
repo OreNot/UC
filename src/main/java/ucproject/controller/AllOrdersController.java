@@ -48,7 +48,7 @@ public class AllOrdersController {
                             Map<String, Object> model) {
 
 
-        Iterable<Statement> statements = statementRepo.findByExecutor(user);
+        Iterable<Statement> statements;
 
         Statement updStatement;
 
@@ -59,7 +59,7 @@ public class AllOrdersController {
             statementRepo.save(updStatement);
         }
 
-        statements = statementRepo.findByExecutor(user);
+        statements = statementRepo.findByStatusNotLikeAndExecutor("В архиве", user);
         model.put("statements", statements);
 
         return "allmyorders";
@@ -88,16 +88,34 @@ public class AllOrdersController {
             @RequestParam("file") MultipartFile file,
             Map<String, Object> model) {
 
-        Fio newFio = new Fio(fio);
-        fioRepo.save(newFio);
+        Fio newFio;
+        if (fioRepo.findByFioIgnoreCase(fio.trim()) == null || fioRepo.findByFioIgnoreCase(fio.trim()).equals(""))
+        {
+          newFio = new Fio(fio.trim());
+          fioRepo.save(newFio);
+        }
+        else
+        {
+            newFio = fioRepo.findByFioIgnoreCase(fio.trim());
+        }
 
-        Organization newOrg = new Organization(organization);
-        organizationRepo.save(newOrg);
+        Organization newOrg;
+        if (organizationRepo.findByOrgNameIgnoreCase(organization.trim()) == null || organizationRepo.findByOrgNameIgnoreCase(organization.trim()).equals(""))
+        {
+            newOrg = new Organization(organization.trim());
+            organizationRepo.save(newOrg);
+        }
+        else
+        {
+            newOrg = organizationRepo.findByOrgNameIgnoreCase(organization.trim());
+        }
 
-        Client newClient = new Client(newFio, newOrg);
+        Client newClient;
+
+        newClient = new Client(newFio, newOrg);
         clientRepo.save(newClient);
 
-        Statement statement = new Statement(comment, user, newClient, "Зарегистрировано");
+        Statement statement = new Statement(user, newClient, comment, "Зарегистрировано");
 
         if (file != null) {
             File uploadDir = new File(uploadPath);
@@ -113,7 +131,7 @@ public class AllOrdersController {
 
             //String uuidFile = UUID.randomUUID().toString();
             String dateForFileName = new SimpleDateFormat("dd.MM.yyyy_HH_mm_ss").format(new Date());
-            String resultFileName = dateForFileName + "_" + fio.trim() + "_" + organization.trim().replaceAll("\"", "") + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."), file.getOriginalFilename().length());
+            String resultFileName = dateForFileName + "_" + fio.split(" ")[0] + "_" + organization.trim().replaceAll("\"", "").replaceAll("\\\\\\\\", "-").replaceAll("/", "-").replaceAll(":", "-") + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."), file.getOriginalFilename().length());
 
             File destFile = new File(fioDir + "/" + resultFileName);
             try {

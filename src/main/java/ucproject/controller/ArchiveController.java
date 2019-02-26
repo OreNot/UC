@@ -28,6 +28,7 @@ public class ArchiveController {
     @Value("${upload.path}")
     private String uploadPath;
 
+
     @GetMapping("/addtoarchive")
     public String addtoarchive(
             @AuthenticationPrincipal User user,
@@ -40,7 +41,7 @@ public class ArchiveController {
         return "addtoarchive";
     }
 
-    @PostMapping("addtoarchive")
+    @PostMapping("/addtoarchive")
     public String addtoarchive(
             @AuthenticationPrincipal User user,
             @RequestParam(required = false, defaultValue = "0") String radio,
@@ -54,7 +55,7 @@ public class ArchiveController {
         {
             statement = statementRepo.findById(Integer.parseInt(radio)).get();
 
-            if (file != null)
+            if (file != null && !file.getOriginalFilename().equals(""))
             {
                 File uploadDir = new File(uploadPath);
 
@@ -72,16 +73,16 @@ public class ArchiveController {
                 //String uuidFile = UUID.randomUUID().toString();
                 String ordFName = statement.getFilename().substring(0, statement.getFilename().lastIndexOf("."));
                 String fType =  file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."), file.getOriginalFilename().length());
-                String resultFileName = ordFName + "_ЛС_" + fType;
+                String resultFileName = ordFName + "_ЛС" + fType;
 
-                File destFile = new File(fioDir + "/" + resultFileName);
+                File destFile = new File(uploadPath + "/" + resultFileName);
                 try {
                     file.transferTo(destFile);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                statement.setPackfilename(statement.getClientFio().trim() + "/" + resultFileName);
+                statement.setPackfilename(resultFileName);
                 statement.setStatus("В архиве");
                 statementRepo.save(statement);
             }
@@ -96,4 +97,5 @@ public class ArchiveController {
 
         return "addtoarchive";
     }
+
 }

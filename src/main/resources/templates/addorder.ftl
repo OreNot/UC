@@ -12,5 +12,7 @@
 
 
 </div>
-<a href="allmyorders">Вернуться ко всем</a>
+<a href="allmyorders">Вернуться ко всем моим</a>
+<br>
+<a href="allorders">Вернуться ко всем (Администратор)</a>
 </@c.page>
