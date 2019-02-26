@@ -40,28 +40,7 @@ public class AllOrdersController {
 
     @Value("${upload.path}")
     private String uploadPath;
-/*
-    @GetMapping("/allorders")
-    public String allorders(@RequestParam(required = false, defaultValue = "") String filter,
-                            @RequestParam(required = false, defaultValue = "0") String radio,
-                            Map<String, Object> model) {
 
-        String s = radio;
-        Iterable<Statement> statements = statementRepo.findAll();
-
-        if (filter != null && !filter.isEmpty()) {
-
-            statements = statementRepo.findByAutor(userRepo.findByUsername(filter));
-        }
-        else
-        {
-            statements = statementRepo.findAll();
-        }
-        model.put("statements", statements);
-        model.put("filter", filter);
-        return "allorders";
-    }
-*/
     @GetMapping("/allmyorders")
     public String allorders(@AuthenticationPrincipal User user,
                             @RequestParam (required = false, defaultValue = "") String status,
@@ -85,37 +64,14 @@ public class AllOrdersController {
 
         return "allmyorders";
     }
-/*
-    @GetMapping("/setexec")
-    public String setexec(@RequestParam(required = false, defaultValue = "") String executor,
-                            @RequestParam(required = false, defaultValue = "0") String radio,
-                            Map<String, Object> model) {
 
-        String s = radio;
-        Iterable<Statement> statements = statementRepo.findByExecutorNull();
-
-        Statement upStatement;
-        User user;
-        if (!radio.equals("0"))
-        {
-            upStatement = statementRepo.findById(Integer.parseInt(radio)).get();
-            user = userRepo.findByUsername(executor);
-            upStatement.setExecutor(user);
-            statementRepo.save(upStatement);
-            statements = statementRepo.findByExecutorNull();
-        }
-
-        //statementRepo.save();
-
-        model.put("statements", statements);
-        return "setexec";
-    }
-*/
     @GetMapping("/addorder")
     public String addorder(Map<String, Object> model)
     {
         return "addorder";
     }
+
+
 
     @GetMapping("/")
     public String main(Map<String, Object> model)
@@ -130,8 +86,8 @@ public class AllOrdersController {
             @RequestParam String fio,
             @RequestParam String organization,
             @RequestParam("file") MultipartFile file,
-            Map<String, Object> model)
-    {
+            Map<String, Object> model) {
+
         Fio newFio = new Fio(fio);
         fioRepo.save(newFio);
 
@@ -143,18 +99,15 @@ public class AllOrdersController {
 
         Statement statement = new Statement(comment, user, newClient, "Зарегистрировано");
 
-        if (file != null)
-        {
+        if (file != null) {
             File uploadDir = new File(uploadPath);
 
-            if (!uploadDir.exists())
-            {
+            if (!uploadDir.exists()) {
                 uploadDir.mkdir();
             }
 
             File fioDir = new File(uploadPath + "/" + fio.trim());
-            if (!fioDir.exists())
-            {
+            if (!fioDir.exists()) {
                 fioDir.mkdir();
             }
 
@@ -172,13 +125,15 @@ public class AllOrdersController {
             statement.setFilename(fio.trim() + "/" + resultFileName);
         }
 
-
-
         statementRepo.save(statement);
 
         return "addorder";
     }
 
+    /*
+
+
+*/
 
 
     @GetMapping("/logout")

@@ -16,6 +16,8 @@
 
         <option value="В работе"></option>
         <option value="Завершено"></option>
+        <option value="Ждёт отправки в архив"></option>
+        <option value="В архиве"></option>
 
 
     </datalist>
@@ -49,5 +51,5 @@
 
 <br>
 <a href="addorder">Добавить</a>
-<a href="setexec">Назначить</a>
+
 </@c.page>

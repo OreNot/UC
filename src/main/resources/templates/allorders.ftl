@@ -30,7 +30,7 @@
 
         <div>Список заявлений</div>
         <table border="1">
-            <tr><td>Id</td><td>Date</td><td>Org</td><td>Fio</td><td>User</td><td>comment</td><td>Executor</td><td>Status</td><td>File</td></tr>
+            <tr><td>Id</td><td>Date</td><td>Org</td><td>Fio</td><td>User</td><td>comment</td><td>Executor</td><td>Status</td><td>File</td><td>FileLS</td></tr>
             <#list statements as statement>
                 <!-- <div>-->
                 <tr>
@@ -45,6 +45,9 @@
                     <td><#if statement.filename??>
                         <a href="/orders/${statement.filename}" target="_blank">Файл заявления</a>
                         <input type="button" value="Файл заявления" onclick="openNewWin('/orders/${statement.filename}')"></#if></td>
+                    <td><#if statement.packfilename??>
+                        <a href="/orders/${statement.packfilename}" target="_blank">ЛС</a>
+                        <input type="button" value="ЛС" onclick="openNewWin('/orders/${statement.packfilename}')"></#if></td>
                 </tr>
                 <!--</div>-->
             <#else>

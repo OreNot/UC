@@ -35,6 +35,8 @@ public class Statement {
 
     private String filename;
 
+    private String packfilename;
+
     public Statement() {
     }
 
@@ -46,6 +48,14 @@ public class Statement {
         this.comment = comment;
         this.status = status;
 
+    }
+
+    public String getPackfilename() {
+        return packfilename;
+    }
+
+    public void setPackfilename(String packfilename) {
+        this.packfilename = packfilename;
     }
 
     public String getFilename() {

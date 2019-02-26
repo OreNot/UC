@@ -3,6 +3,7 @@
     <@c.page>
 
 <div>Hello, user!</div>
-<a href="allorders">Заявления</a>
-<a href="/user">Users</a>
+<a href="allorders">Администратор</a>
+<a href="allmyorders">Оператор</a>
+<a href="/user">SA</a>
 </@c.page>
