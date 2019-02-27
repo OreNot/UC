@@ -50,6 +50,7 @@ public class AllOrdersController {
 
         Iterable<Statement> statements;
 
+
         Statement updStatement;
 
         if (!status.equals("") && !radio.equals(""))
@@ -60,6 +61,8 @@ public class AllOrdersController {
         }
 
         statements = statementRepo.findByStatusNotLikeAndExecutor("В архиве", user);
+
+
         model.put("statements", statements);
 
         return "allmyorders";

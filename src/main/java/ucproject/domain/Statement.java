@@ -108,7 +108,7 @@ public class Statement {
         return executor != null ? executor.getUsername() : "Не назначен";
     }
 
-    public String getExecutorRealName()
+    public String getExecutorFio()
     {
         return executor.getFio().getFio() != null ? executor.getFio().getFio() : "Не назначен";
     }

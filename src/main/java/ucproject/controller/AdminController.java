@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ucproject.domain.*;
 import ucproject.repos.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -38,6 +39,15 @@ public class AdminController {
         filter = filter.replaceAll(",", "");
         String s = radio;
         Iterable<Statement> statements = statementRepo.findAll();
+        Iterable<User> users = userRepo.findAll();
+        Map<String, Integer> mp = new HashMap<>();
+
+        for (User user : users)
+        {
+            mp.put(user.getUsername(), statementRepo.findByStatusNotLikeAndExecutor("В архиве", userRepo.findByUsername(user.getUsername())).size());
+        }
+
+
 
         if (filter != null && !filter.isEmpty()) {
 
@@ -73,7 +83,7 @@ public class AdminController {
             statements = statementRepo.findAll();
         }
         model.put("statements", statements);
-        model.put("usercol", statementRepo.findByStatusNotLikeAndExecutor("В архиве", userRepo.findByUsername("user")).size());
+        model.put("usercol", mp);
         model.put("filter", filter);
         return "allorders";
     }

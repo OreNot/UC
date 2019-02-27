@@ -33,6 +33,7 @@
             }
         }
     </script>
+    <img src="/img/greenatom.png" width="145" height="159">
     <div>
         <@l.logout/>
     </div>
@@ -69,12 +70,13 @@
 
         <button type="submit">Найти</button>
         <div>Статистика</div>
+
         <table border="1">
             <tr><td>User</td><td>Col</td></tr>
-            <tr><td>user</td><td>${usercol}</td></tr>
-            <tr><td>User</td><td>Col</td></tr>
-            <tr><td>User</td><td>Col</td></tr>
-            <tr><td>User</td><td>Col</td></tr>
+            <#list usercol?keys as key>
+            <tr><td>${key}</td><td>${usercol[key]}</td></tr>
+            </#list>
+
         </table>
 
         <div>Список заявлений</div>
