@@ -33,32 +33,51 @@
             }
         }
     </script>
-    <img src="/img/greenatom.png" width="145" height="159">
+    <img src="/img/greenatom.png" class="rounded float-left" width="145" height="159">
     <div>
-        <@l.logout/>
+
+        <table class="table" title="Статистика">
+            <thead>
+            <tr>
+                <th scope="col">User</th>
+                <th scope="col">Col</th>
+            </tr>
+            </thead>
+            <tbody>
+                <#list usercol?keys as key>
+                <tr><td>${key}</td><td>${usercol[key]}</td></tr>
+                </#list>
+            </tbody>
+
+
+        </table>
     </div>
 
 
     <br>
-    <br>
+    <div class="form-row">
+        <div class="form-group col-md-6">
     <form method="get" action="allorders">
-        <input type="radio" name="radiofilter" onclick="radioClick(this)" value="executorfilter" checked="true">
+        <div class="form-check form-check-inline mb-1">
+        <input type="radio" class="form-check-input" name="radiofilter" onclick="radioClick(this)" value="executorfilter" checked="true">
         <!--<input type="text" id="" list="listOrg" name="filter"  placeholder="Исполнитель">-->
-        <select id="executor" name="filter"  placeholder="Исполнитель">
+        <select id="executor" class="form-control" name="filter"  placeholder="Исполнитель">
             <option value="user">user</option>
             <option value="Лютов">Лютов</option>
             <option value="Все">Все</option>
 
         </select>
+        </div>
         <br>
+        <div class="form-check form-check-inline mb-1">
+        <input type="radio" class="form-check-input" name="radiofilter" onclick="radioClick(this)" value="orgfilter">
+        <input type="text" id="organization" class="form-control"  name="filter"  placeholder="Организация" disabled>
+        </div>
         <br>
-        <input type="radio"  name="radiofilter" onclick="radioClick(this)" value="orgfilter">
-        <input type="text" id="organization" name="filter"  placeholder="Организация" disabled>
-        <br>
-        <br>
-        <input type="radio" name="radiofilter" onclick="radioClick(this)" value="fiofilter">
-        <input type="text" id="fio" name="filter"  placeholder="ФИО" disabled>
-
+        <div class="form-check form-check-inline mb-1">
+        <input type="radio" class="form-check-input" name="radiofilter" onclick="radioClick(this)" value="fiofilter">
+        <input type="text" id="fio"  class="form-control" name="filter"  placeholder="ФИО" disabled>
+        </div>
         <input type="hidden" name="_csrf" value="${_csrf.token}">
         <datalist id="listOrg">
 
@@ -67,25 +86,32 @@
 
 
         </datalist>
+        <br>
+        <button type="submit" class="btn btn-primary mb-2">Найти</button>
 
-        <button type="submit">Найти</button>
-        <div>Статистика</div>
-
-        <table border="1">
-            <tr><td>User</td><td>Col</td></tr>
-            <#list usercol?keys as key>
-            <tr><td>${key}</td><td>${usercol[key]}</td></tr>
-            </#list>
-
-        </table>
 
         <div>Список заявлений</div>
-        <table border="1">
-            <tr><td>Id</td><td>Date</td><td>Org</td><td>Fio</td><td>User</td><td>Executor</td><td>Status</td><td>comment</td><td>File</td><td>FileLS</td></tr>
+        <table  class="table mt-2">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Date</th>
+                <th scope="col">Org</th>
+                <th scope="col">Fio</th>
+                <th scope="col">User</th>
+                <th scope="col">Executor</th>
+                <th scope="col">Status</th>
+                <th scope="col">comment</th>
+                <th scope="col">File</th>
+                <th scope="col">FileLS</th>
+                <th scope="col">StType</th>
+            </tr>
+            </thead>
+           <tbody>
             <#list statements as statement>
                 <!-- <div>-->
                 <tr>
-                    <td>${statement.id}</td>
+                    <th scope="row">${statement.id}</th>
                     <td>${statement.regDate}</td>
                     <td>${statement.clientOrg}</td>
                     <td>${statement.clientFio}</td>
@@ -98,16 +124,18 @@
                     <td><#if statement.packfilename??>
 
                         <input type="button" value="ЛС" onclick="openNewWin('/orders/${statement.packfilename}')"></#if></td>
+                    <td></td>
                 </tr>
                 <!--</div>-->
             <#else>
                 No statements
             </#list>
+            </tbody>
         </table>
 
     </form>
+        </div>
+    </div>
 
-    <br>
-    <a href="addorder">Добавить</a>
-    <a href="setexec">Назначить</a>
+
 </@c.page>

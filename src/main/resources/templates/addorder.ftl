@@ -2,17 +2,33 @@
 <@c.page>
 <div>
     <form method="post" enctype="multipart/form-data">
-        <input type="text" name="fio" placeholder="ФИО"/>
-        <input type="text" name="organization" placeholder="Организация"/>
-        <input type="text" name="comment" placeholder="Комментарий"/>
-        <input type="file" name="file" placeholder="Файл"/>
+        <div class="form-group row mt-3">
+            <div class="col-sm-9">
+        <input type="text" class="form-control" name="fio" placeholder="ФИО"/>
+            </div>
+        </div>
+        <div class="form-group row mt-3">
+            <div class="col-sm-9">
+        <input type="text" class="form-control" name="organization" placeholder="Организация"/>
+        </div>
+        </div>
+        <div class="form-group row mt-3">
+            <div class="col-sm-9">
+        <input type="text" class="form-control" name="comment" placeholder="Комментарий"/>
+        </div>
+        </div>
+
+        <div class="custom-file">
+        <input type="file" name="file" id="customFile"/>
+            <label class="custom-file-label" for="customFile">Выберите файл</label>
+        </div>
         <input type="hidden" name="_csrf" value="${_csrf.token}">
-        <button type="submit">Зарегистрировать</button>
+        <div class="form-group">
+        <button type="submit" class="btn btn-primary mt-2">Зарегистрировать</button>
+        </div>
     </form>
 
 
 </div>
-<a href="allmyorders">Вернуться ко всем моим</a>
-<br>
-<a href="allorders">Вернуться ко всем (Администратор)</a>
+
 </@c.page>

@@ -1,10 +1,7 @@
 <#import "parts/common.ftl" as c>
-<#import "parts/login.ftl" as l>
+
 <@c.page>
 
-<div>
-    <@l.logout/>
-</div>
 <script language="JavaScript">
     <!-- hide
     function openNewWin(url) {
@@ -52,6 +49,6 @@
 </form>
 
 <br>
-<a href="allmyorders">Ко всем</a>
+
 
 </@c.page>
