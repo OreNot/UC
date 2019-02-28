@@ -1,5 +1,6 @@
 package ucproject.service;
 
+import antlr.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -39,4 +40,12 @@ public class UserService implements UserDetailsService{
         return true;
     }
 
+    public void updateProfile(User user, String password) {
+
+        if (!password.equals(""))
+        {
+            user.setPassword(password);
+        }
+        userRepo.save(user);
+    }
 }

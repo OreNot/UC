@@ -10,7 +10,7 @@ public class Organization {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String orgName;
 
@@ -21,11 +21,11 @@ public class Organization {
         this.orgName = orgName;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -2,6 +2,7 @@ package ucproject.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ucproject.domain.Fio;
@@ -9,6 +10,7 @@ import ucproject.domain.Role;
 import ucproject.domain.User;
 import ucproject.repos.FioRepo;
 import ucproject.repos.UserRepo;
+import ucproject.service.UserService;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,14 +20,18 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
-@PreAuthorize("hasAuthority('ADMIN')")
+
 public class UserController {
     @Autowired
     private UserRepo userRepo;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private FioRepo fioRepo;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public String userList(Map<String, Object> model)
     {
@@ -33,6 +39,7 @@ public class UserController {
         return "userList";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("{user}")
     public String userEditForm(@PathVariable User user, Map<String, Object> model)
     {
@@ -41,6 +48,7 @@ public class UserController {
         return "userEdit";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public String userSave(@RequestParam("userId") User user,
                            @RequestParam String fio,
@@ -70,6 +78,22 @@ public class UserController {
 
         userRepo.save(user);
         return "redirect:/user";
+    }
+
+    @GetMapping("profile")
+    public String getProfile(Map<String, Object> model, @AuthenticationPrincipal User user)
+    {
+        model.put("username", user.getUsername());
+
+        return "profile";
+    }
+
+    @PostMapping("profile")
+    public String updateProfile(@AuthenticationPrincipal User user,
+                                @RequestParam String password)
+    {
+        userService.updateProfile(user, password);
+        return "redirect:/user/profile";
     }
 }
 

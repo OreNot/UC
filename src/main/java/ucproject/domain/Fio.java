@@ -10,7 +10,7 @@ public class Fio {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     String fio;
 
@@ -21,11 +21,11 @@ public class Fio {
         this.fio = fio;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

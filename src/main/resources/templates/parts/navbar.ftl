@@ -29,6 +29,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/addtoarchive">В архив</a>
                 </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/user/profile">Профиль</a>
+                </li>
 
         </ul>
 
