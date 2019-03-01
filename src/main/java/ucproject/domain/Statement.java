@@ -18,6 +18,7 @@ public class Statement {
 
     private String comment;
 
+    private String type;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -40,14 +41,24 @@ public class Statement {
     public Statement() {
     }
 
-    public Statement(User user, Client client, String comment, String status) {
+    public Statement(User user, Client client, String type, String comment, String status) {
         //this.regDate = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date());
         this.regDate = new Date();
         this.autor = user;
         this.client = client;
         this.comment = comment;
         this.status = status;
+        this.type = type;
 
+    }
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getPackfilename() {

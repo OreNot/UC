@@ -18,9 +18,6 @@ public class User implements UserDetails{
     private String username;
     @NotBlank(message = "pass not null")
     private String password;
-    @Transient
-    @NotBlank(message = "pass confir")
-    private String password2;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fio_id")
@@ -36,15 +33,6 @@ public class User implements UserDetails{
     public boolean isAdmin()
     {
         return roles.contains(Role.ADMIN);
-    }
-
-
-    public String getPassword2() {
-        return password2;
-    }
-
-    public void setPassword2(String password2) {
-        this.password2 = password2;
     }
 
     public Fio getFio() {

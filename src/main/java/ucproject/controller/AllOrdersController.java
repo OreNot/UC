@@ -88,6 +88,7 @@ public class AllOrdersController {
             @RequestParam String comment,
             @RequestParam String fio,
             @RequestParam String organization,
+            @RequestParam String type,
             @RequestParam("file") MultipartFile file,
             Map<String, Object> model) {
 
@@ -115,10 +116,16 @@ public class AllOrdersController {
 
         Client newClient;
 
-        newClient = new Client(newFio, newOrg);
+        if(clientRepo.findByFioAndOrganization(newFio, newOrg) == null) {
+            newClient = new Client(newFio, newOrg);
+        }
+        else
+        {
+            newClient = clientRepo.findByFioAndOrganization(newFio, newOrg);
+        }
         clientRepo.save(newClient);
 
-        Statement statement = new Statement(user, newClient, comment, "Зарегистрировано");
+        Statement statement = new Statement(user, newClient, type, comment, "Зарегистрировано");
 
         if (file != null) {
             File uploadDir = new File(uploadPath);

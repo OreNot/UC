@@ -28,7 +28,7 @@
 
     <div>Список заявлений</div>
     <table border="1">
-        <tr><td>Id</td><td>Date</td><td>Org</td><td>Fio</td><td>User</td><td>comment</td><td>Executor</td><td>Status</td><td>File</td><td>FileLS</td><td>Radio</td></tr>
+        <tr><td>Id</td><td>Date</td><td>Org</td><td>Fio</td><td>User</td><td>type</td><td>comment</td><td>Executor</td><td>Status</td><td>File</td><td>FileLS</td><td>Radio</td></tr>
         <#list statements as statement>
             <!-- <div>-->
             <tr>
@@ -37,6 +37,7 @@
                 <td>${statement.clientOrg}</td>
                 <td>${statement.clientFio}</td>
                 <td>${statement.authorName}</td>
+                <td>${statement.type}</td>
                 <td>${statement.comment}</td>
                 <td>${statement.executorName}</td>
                 <td>${statement.status}</td>

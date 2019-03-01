@@ -23,6 +23,7 @@ create table statement (
   id int8 not null,
   comment varchar(2048),
   filename varchar(255),
+  type varchar(255),
   packfilename varchar(255),
   reg_date timestamp,
   status varchar(255),

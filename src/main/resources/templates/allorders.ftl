@@ -124,7 +124,7 @@
                     <td><#if statement.packfilename??>
 
                         <input type="button" value="ЛС" onclick="openNewWin('/orders/${statement.packfilename}')"></#if></td>
-                    <td></td>
+                    <td>${statement.type}</td>
                 </tr>
                 <!--</div>-->
             <#else>

@@ -10,4 +10,5 @@ public interface ClientRepo extends JpaRepository<Client, Integer>{
 
     Client findByFio(Fio fio);
     Client findByOrganization(Organization organization);
+    Client findByFioAndOrganization(Fio fio, Organization organization);
 }
