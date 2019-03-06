@@ -27,6 +27,7 @@ create table statement (
   packfilename varchar(255),
   reg_date timestamp,
   status varchar(255),
+  catalog_number varchar(255),
   user_id int8,
   client_id int8,
   exec_id int8,

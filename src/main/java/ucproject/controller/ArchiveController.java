@@ -46,6 +46,7 @@ public class ArchiveController {
             @AuthenticationPrincipal User user,
             @RequestParam(required = false, defaultValue = "0") String radio,
             @RequestParam("file") MultipartFile file,
+            @RequestParam(required = false, defaultValue = "0") String catNum,
             Map<String, Object> model)
     {
 
@@ -53,7 +54,7 @@ public class ArchiveController {
 
         if(!radio.equals(""))
         {
-            statement = statementRepo.findById(Integer.parseInt(radio)).get();
+            statement = statementRepo.findById(Long.parseLong(radio)).get();
 
             if (file != null && !file.getOriginalFilename().equals(""))
             {
@@ -72,8 +73,10 @@ public class ArchiveController {
 
                 //String uuidFile = UUID.randomUUID().toString();
                 String ordFName = statement.getFilename().substring(0, statement.getFilename().lastIndexOf("."));
+                String orgtempName = ordFName.substring(ordFName.lastIndexOf("_"), ordFName.length());
+                ordFName = ordFName.substring(0, ordFName.lastIndexOf("_") + 1);
                 String fType =  file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."), file.getOriginalFilename().length());
-                String resultFileName = ordFName + "_ЛС" + fType;
+                String resultFileName = ordFName + "_ЛС_" + orgtempName + fType;
 
                 File destFile = new File(uploadPath + "/" + resultFileName);
                 try {
@@ -84,6 +87,7 @@ public class ArchiveController {
 
                 statement.setPackfilename(resultFileName);
                 statement.setStatus("В архиве");
+                statement.setCatalogNumber(catNum);
                 statementRepo.save(statement);
             }
         }

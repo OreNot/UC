@@ -23,6 +23,9 @@ import java.util.UUID;
 @PreAuthorize("hasAuthority('USER')")
 public class AllOrdersController {
 
+    @Value("${urlprefix}")
+    private String urlprefixPath;
+
     @Autowired
     public StatementRepo statementRepo;
 
@@ -55,7 +58,7 @@ public class AllOrdersController {
 
         if (!status.equals("") && !radio.equals(""))
         {
-            updStatement = statementRepo.findById(Integer.parseInt(radio)).get();
+            updStatement = statementRepo.findById(Long.parseLong(radio)).get();
             updStatement.setStatus(status);
             statementRepo.save(updStatement);
         }
@@ -79,6 +82,7 @@ public class AllOrdersController {
     @GetMapping("/")
     public String main(Map<String, Object> model)
     {
+        model.put("urlprefixPath", urlprefixPath);
         return "main";
     }
 

@@ -15,6 +15,7 @@
 
 <form method="post" enctype="multipart/form-data">
     <input type="file" name="file" placeholder="Файл"/>
+    <input type="text" name="catNum" placeholder="catNum"/>
     <input type="hidden" name="_csrf" value="${_csrf.token}">
     <button type="submit">В архив</button>
 

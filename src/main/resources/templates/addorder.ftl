@@ -15,17 +15,20 @@
         <div class="form-group row mt-3">
             <div class="col-sm-9">
         <input type="text" class="form-control" name="comment" placeholder="Комментарий"/>
+            </div>
         </div>
-            <br>
             <div class="form-group row mt-3">
+                <div class="col-sm-9">
             <select id="executor" class="form-control" name="type"  placeholder="type">
                 <option value="ukep" selected>ukep</option>
                 <option value="cloud">cloud</option>
                 <option value="sterra">sterra</option>
 
             </select>
+                </div>
+
             </div>
-        </div>
+
 
         <div class="custom-file">
         <input type="file" name="file" id="customFile"/>

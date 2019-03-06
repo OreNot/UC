@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface StatementRepo extends CrudRepository<Statement, Integer> {
 
     List<Statement> findByComment(String comment);
-    Optional<Statement> findById(Integer id);
+    Optional<Statement> findById(Long id);
     List<Statement> findByAutor(User autor);
     List<Statement> findByExecutor(User executor);
     List<Statement> findByExecutorNull();

@@ -1,6 +1,7 @@
 package ucproject.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,9 @@ import java.util.Map;
 @Controller
 @PreAuthorize("hasAuthority('ADMIN')")
 public class AdminController {
+
+    @Value("${urlprefix}")
+    private String urlprefixPath;
 
     @Autowired
     public StatementRepo statementRepo;
@@ -100,7 +104,7 @@ public class AdminController {
         User user;
         if (!radio.equals("0"))
         {
-            upStatement = statementRepo.findById(Integer.parseInt(radio)).get();
+            upStatement = statementRepo.findById(Long.parseLong(radio)).get();
             user = userRepo.findByUsername(executor);
             upStatement.setExecutor(user);
             statementRepo.save(upStatement);

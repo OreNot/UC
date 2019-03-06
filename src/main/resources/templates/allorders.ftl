@@ -105,6 +105,7 @@
                 <th scope="col">File</th>
                 <th scope="col">FileLS</th>
                 <th scope="col">StType</th>
+                <th scope="col">CatNum</th>
             </tr>
             </thead>
            <tbody>
@@ -125,6 +126,7 @@
 
                         <input type="button" value="ЛС" onclick="openNewWin('/orders/${statement.packfilename}')"></#if></td>
                     <td>${statement.type}</td>
+                    <td><#if statement.catalogNumber??>${statement.catalogNumber}</#if></td>
                 </tr>
                 <!--</div>-->
             <#else>

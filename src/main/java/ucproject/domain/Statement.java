@@ -38,6 +38,8 @@ public class Statement {
 
     private String packfilename;
 
+    private String catalogNumber;
+
     public Statement() {
     }
 
@@ -52,6 +54,14 @@ public class Statement {
 
     }
 
+
+    public String getCatalogNumber() {
+        return catalogNumber;
+    }
+
+    public void setCatalogNumber(String catalogNumber) {
+        this.catalogNumber = catalogNumber;
+    }
 
     public String getType() {
         return type;
