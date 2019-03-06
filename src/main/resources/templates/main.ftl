@@ -3,5 +3,6 @@
     <@c.page>
 
 <div>Hello, user!</div>
+<div>${urlprefixPath}</div>
 
 </@c.page>

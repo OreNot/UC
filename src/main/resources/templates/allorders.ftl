@@ -33,7 +33,8 @@
             }
         }
     </script>
-    <img src="/img/greenatom.png" class="rounded float-left" width="145" height="159">
+    <div>${urlprefixPath}</div>
+    <img src="${urlprefixPath}/img/greenatom.png" class="rounded float-left" width="145" height="159">
     <div>
 
         <table class="table" title="Статистика">

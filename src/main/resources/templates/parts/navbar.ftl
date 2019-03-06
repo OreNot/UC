@@ -11,26 +11,26 @@
         <ul class="navbar-nav mr-auto">
             <#if isAdmin>
             <li class="nav-item">
-                <a class="nav-link" href="/allorders">Все заявления</a>
+                <a class="nav-link" href="${prefix}/allorders">Все заявления</a>
             </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/setexec">Назначить</a>
+                    <a class="nav-link" href="${prefix}/setexec">Назначить</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user">SA</a>
+                    <a class="nav-link" href="${prefix}/user">SA</a>
                 </li>
                 </#if>
             <li class="nav-item">
-                <a class="nav-link" href="/allmyorders">Заявления на меня</a>
+                <a class="nav-link" href="${prefix}/allmyorders">Заявления на меня</a>
             </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/addorder">Добавить</a>
+                    <a class="nav-link" href="${prefix}/addorder">Добавить</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/addtoarchive">В архив</a>
+                    <a class="nav-link" href="${prefix}/addtoarchive">В архив</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="/user/profile">Профиль</a>
+                <a class="nav-link" href="${prefix}/user/profile">Профиль</a>
                 </li>
 
         </ul>

@@ -89,6 +89,7 @@ public class AdminController {
         model.put("statements", statements);
         model.put("usercol", mp);
         model.put("filter", filter);
+        model.put("urlprefixPath", urlprefixPath);
         return "allorders";
     }
 
@@ -112,7 +113,7 @@ public class AdminController {
         }
 
         //statementRepo.save();
-
+        model.put("urlprefixPath", urlprefixPath);
         model.put("statements", statements);
         return "setexec";
     }

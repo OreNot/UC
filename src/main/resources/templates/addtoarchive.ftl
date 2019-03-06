@@ -9,7 +9,7 @@
     }
     // -->
 </script>
-
+<div>${urlprefixPath}</div>
 <br>
 <br>
 

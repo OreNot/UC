@@ -1,4 +1,5 @@
 <#macro login path isRegisterForm>
+    <#include "security.ftl">
 <form action="${path}" method="post">
     <div class="form-group row mt-3">
         <label class="col-sm-2 col-form-label"> User Name : </label>
@@ -13,7 +14,8 @@
         </div>
     </div>
     <input type="hidden" name="_csrf" value="${_csrf.token}">
-    <#if !isRegisterForm><a href="/registration">Регистрация</a> </#if>
+    <#if isRegisterForm>${urlprefixPath} </#if>
+    <#if !isRegisterForm><a href="${prefix}/registration">Регистрация</a> </#if>
     <button class="btn btn-primary" type="submit"><#if isRegisterForm>Зарегистрироваться<#else>Войти</#if></button>
 </form>
 </#macro>

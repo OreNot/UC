@@ -1,7 +1,7 @@
 <#import "parts/common.ftl" as c>
 <@c.page>
 
-
+<div>${urlprefixPath}</div>
 <br>
 <br>
 <form method="get" action="allmyorders">

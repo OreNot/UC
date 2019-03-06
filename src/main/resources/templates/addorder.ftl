@@ -1,5 +1,6 @@
 <#import "parts/common.ftl" as c>
 <@c.page>
+<div>${urlprefixPath}</div>
 <div>
     <form method="post" enctype="multipart/form-data">
         <div class="form-group row mt-3">

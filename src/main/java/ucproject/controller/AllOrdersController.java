@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +24,6 @@ import java.util.UUID;
 @PreAuthorize("hasAuthority('USER')")
 public class AllOrdersController {
 
-    @Value("${urlprefix}")
-    private String urlprefixPath;
-
     @Autowired
     public StatementRepo statementRepo;
 
@@ -43,6 +41,9 @@ public class AllOrdersController {
 
     @Value("${upload.path}")
     private String uploadPath;
+
+    @Value("${urlprefix}")
+    private String urlprefixPath;
 
     @GetMapping("/allmyorders")
     public String allorders(@AuthenticationPrincipal User user,
@@ -67,13 +68,15 @@ public class AllOrdersController {
 
 
         model.put("statements", statements);
-
+        model.put("urlprefixPath", urlprefixPath);
         return "allmyorders";
     }
 
     @GetMapping("/addorder")
     public String addorder(Map<String, Object> model)
     {
+
+        model.put("urlprefixPath", urlprefixPath);
         return "addorder";
     }
 
@@ -158,7 +161,7 @@ public class AllOrdersController {
         }
 
         statementRepo.save(statement);
-
+        model.put("urlprefixPath", urlprefixPath);
         return "addorder";
     }
 
@@ -166,11 +169,20 @@ public class AllOrdersController {
 
 
 */
-
-
+/*
+    @GetMapping("/login")
+    public String login(Map<String, Object> model)
+    {
+        System.out.println(urlprefixPath);
+        model.put("urlprefixPath", urlprefixPath);
+        return urlprefixPath + "/login";
+    }
+*/
     @GetMapping("/logout")
     public String logout(Map<String, Object> model)
     {
-        return "main";
+        System.out.println(urlprefixPath);
+        model.put("urlprefixPath", urlprefixPath);
+        return urlprefixPath + "/main";
     }
 }

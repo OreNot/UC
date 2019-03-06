@@ -28,6 +28,8 @@ public class ArchiveController {
     @Value("${upload.path}")
     private String uploadPath;
 
+    @Value("${urlprefix}")
+    private String urlprefixPath;
 
     @GetMapping("/addtoarchive")
     public String addtoarchive(
@@ -35,7 +37,7 @@ public class ArchiveController {
             Map<String, Object> model)
     {
         Iterable<Statement> statements = statementRepo.findByStatusAndExecutor("Ждёт отправки в архив", user);
-
+        model.put("urlprefixPath", urlprefixPath);
         model.put("statements", statements);
 
         return "addtoarchive";
@@ -76,7 +78,7 @@ public class ArchiveController {
                 String orgtempName = ordFName.substring(ordFName.lastIndexOf("_"), ordFName.length());
                 ordFName = ordFName.substring(0, ordFName.lastIndexOf("_") + 1);
                 String fType =  file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."), file.getOriginalFilename().length());
-                String resultFileName = ordFName + "_ЛС_" + orgtempName + fType;
+                String resultFileName = ordFName + "ЛС" + orgtempName + fType;
 
                 File destFile = new File(uploadPath + "/" + resultFileName);
                 try {
@@ -97,7 +99,7 @@ public class ArchiveController {
 
         model.put("statements", statements);
 
-
+        model.put("urlprefixPath", urlprefixPath);
 
         return "addtoarchive";
     }

@@ -26,11 +26,12 @@ public class RegistrationController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/registration")
-    public String registration()
+    public String registration(Map<String, Object> model)
     {
        System.out.println(urlprefixPath);
+       model.put("urlprefixPath", urlprefixPath);
 
-        return urlprefixPath + "/registration";
+        return "/registration";
     }
 
     @PostMapping("/registration")
@@ -48,6 +49,7 @@ public class RegistrationController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
 
+        model.put("urlprefixPath", urlprefixPath);
         return "redirect:/login";
     }
 }
