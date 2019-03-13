@@ -83,10 +83,10 @@ public class AllOrdersController {
 
 
     @GetMapping("/")
-    public String main(Map<String, Object> model)
+    public String main(@AuthenticationPrincipal User user, Map<String, Object> model)
     {
-        model.put("urlprefixPath", urlprefixPath);
-        return "main";
+        model.put("user", user.getUsername());
+        return "/main";
     }
 
     @PostMapping("/addorder")

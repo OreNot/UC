@@ -1,6 +1,5 @@
 <#import "parts/common.ftl" as c>
 <@c.page>
-<div>${urlprefixPath}</div>
 <div>
     <form method="post" enctype="multipart/form-data">
         <div class="form-group row mt-3">
@@ -20,9 +19,9 @@
         </div>
             <div class="form-group row mt-3">
                 <div class="col-sm-9">
-            <select id="executor" class="form-control" name="type"  placeholder="type">
-                <option value="ukep" selected>ukep</option>
-                <option value="cloud">cloud</option>
+            <select id="executor" class="form-control" name="type"  placeholder="Тип">
+                <option value="Квалиф." selected>Квалиф</option>
+                <option value="Облачный">Облачный</option>
                 <option value="sterra">sterra</option>
 
             </select>
@@ -30,11 +29,16 @@
 
             </div>
 
-
+<!--
         <div class="custom-file">
         <input type="file" name="file" id="customFile"/>
             <label class="custom-file-label" for="customFile">Выберите файл</label>
         </div>
+        -->
+        <div class="file-upload-wrapper">
+            <input type="file"  name="file" id="input-file-now" class="file-upload" />
+        </div>
+
         <input type="hidden" name="_csrf" value="${_csrf.token}">
         <div class="form-group">
         <button type="submit" class="btn btn-primary mt-2">Зарегистрировать</button>

@@ -11,8 +11,9 @@ know = Session.SPRING_SECURITY_CONTEXT??
     >
 <#else>
 <#assign
-name = "unknown"
+name = "Пользователь"
 isAdmin = false
-prefix="/UC"
+prefix = "/UC"
+upath = "\\\\gren-wd-000318\\OrdStorage"
 >
 </#if>

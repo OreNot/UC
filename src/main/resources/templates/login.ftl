@@ -3,7 +3,7 @@
 <#include "parts/security.ftl">
 
 <@c.page>
-${prefix}
+
 <@l.login "/login" false/>
 
 </@c.page>

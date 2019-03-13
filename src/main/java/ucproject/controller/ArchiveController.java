@@ -74,11 +74,16 @@ public class ArchiveController {
                 }
 
                 //String uuidFile = UUID.randomUUID().toString();
-                String ordFName = statement.getFilename().substring(0, statement.getFilename().lastIndexOf("."));
-                String orgtempName = ordFName.substring(ordFName.lastIndexOf("_"), ordFName.length());
-                ordFName = ordFName.substring(0, ordFName.lastIndexOf("_") + 1);
+                String ordFNameFirst = statement.getFilename().substring(0, statement.getFilename().lastIndexOf("."));
+
+                String orgtempName = ordFNameFirst.substring(ordFNameFirst.lastIndexOf("_"), ordFNameFirst.length());
+                String ordFName = ordFNameFirst.substring(0, ordFNameFirst.lastIndexOf("_") + 1);
                 String fType =  file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."), file.getOriginalFilename().length());
-                String resultFileName = ordFName + "ЛС" + orgtempName + fType;
+                String resultFileName = ordFName + "ЛС" + orgtempName + "_" + catNum + fType;
+
+                File stFile = new File(uploadPath + "/" + statement.getFilename());
+
+                stFile.renameTo(new File(uploadPath + "/" + ordFNameFirst + "_" + catNum + fType));
 
                 File destFile = new File(uploadPath + "/" + resultFileName);
                 try {
@@ -86,7 +91,7 @@ public class ArchiveController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
+                statement.setFilename(ordFName + catNum + fType);
                 statement.setPackfilename(resultFileName);
                 statement.setStatus("В архиве");
                 statement.setCatalogNumber(catNum);

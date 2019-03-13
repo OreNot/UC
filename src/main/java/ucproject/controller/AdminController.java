@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ucproject.domain.*;
 import ucproject.repos.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @PreAuthorize("hasAuthority('ADMIN')")
@@ -42,7 +41,8 @@ public class AdminController {
 
         filter = filter.replaceAll(",", "");
         String s = radio;
-        Iterable<Statement> statements = statementRepo.findAll();
+        //Iterable<Statement> statements = statementRepo.findAll();
+        List<Statement> statements = (List<Statement>) statementRepo.findAll();
         Iterable<User> users = userRepo.findAll();
         Map<String, Integer> mp = new HashMap<>();
 
@@ -60,7 +60,7 @@ public class AdminController {
                 case "executorfilter" :
                     if (filter.replaceAll(",", "").equals("Все"))
                     {
-                        statements = statementRepo.findAll();
+                        statements = (List<Statement>) statementRepo.findAll();
                     }
                     else {
                         statements = statementRepo.findByExecutor(userRepo.findByUsername(filter));
@@ -69,14 +69,46 @@ public class AdminController {
 
                 case  "orgfilter" :
                     Organization upOrg = organizationRepo.findByOrgNameContaining(filter.replaceAll(",", ""));
-                    Client upClientByOrg = clientRepo.findByOrganization(upOrg);
-                    statements = statementRepo.findByClient(upClientByOrg);
+                    List<Client> upClientsByOrg = (List<Client>) clientRepo.findByOrganization(upOrg);
+                    statements.clear();
+                    List<Statement> updStatements = new ArrayList<>();
+                    for (Client client : upClientsByOrg)
+                    {
+                       updStatements.addAll(statementRepo.findByClient(client));
+
+
+                    }
+                    for (Statement stu : updStatements)
+                    {
+                        if (!statements.contains(stu))
+                        {
+                            statements.add(stu);
+                        }
+                    }
+                    //statements = statementRepo.findByClients(upClientsByOrg);
                     break;
 
                 case  "fiofilter" :
                     Fio updFio = fioRepo.findByFioContaining(filter.replaceAll(",", ""));
-                    Client upClientByFio = clientRepo.findByFio(updFio);
-                    statements = statementRepo.findByClient(upClientByFio);
+                    List<Client> upClientsByFio = (List<Client>) clientRepo.findByFio(updFio);
+                    //Client upClientByFio = clientRepo.findByFio(updFio);
+                    statements.clear();
+                    List<Statement> updStatementsByFio = new ArrayList<>();
+                    for (Client client : upClientsByFio)
+                    {
+                        updStatementsByFio.addAll(statementRepo.findByClient(client));
+
+
+                    }
+                    for (Statement stu : updStatementsByFio)
+                    {
+                        if (!statements.contains(stu))
+                        {
+                            statements.add(stu);
+                        }
+                    }
+
+                    //statements = statementRepo.findByClient(upClientByFio);
                     break;
 
 
@@ -84,7 +116,7 @@ public class AdminController {
         }
         else
         {
-            statements = statementRepo.findAll();
+            statements = (List<Statement>) statementRepo.findAll();
         }
         model.put("statements", statements);
         model.put("usercol", mp);
@@ -99,21 +131,47 @@ public class AdminController {
                           Map<String, Object> model) {
 
         String s = radio;
+        List <String> sts = new ArrayList<>();
         Iterable<Statement> statements = statementRepo.findByExecutorNull();
 
         Statement upStatement;
         User user;
         if (!radio.equals("0"))
         {
-            upStatement = statementRepo.findById(Long.parseLong(radio)).get();
+            if (radio.contains(",")) {
+                sts.addAll(Arrays.asList(radio.split(",")));
+            }
+            else
+            {
+                sts.add(radio);
+            }
+            for (String st : sts)
+            {
+                upStatement = statementRepo.findById(Long.parseLong(st)).get();
+                user = userRepo.findByUsername(executor);
+                upStatement.setExecutor(user);
+                statementRepo.save(upStatement);
+            }
+           /* upStatement = statementRepo.findById(Long.parseLong(radio)).get();
             user = userRepo.findByUsername(executor);
             upStatement.setExecutor(user);
             statementRepo.save(upStatement);
+            */
             statements = statementRepo.findByExecutorNull();
         }
 
+        Iterable<User> users = userRepo.findAll();
+        Map<String, Integer> mp = new HashMap<>();
+
+        for (User usr : users)
+        {
+            mp.put(usr.getUsername(), statementRepo.findByStatusNotLikeAndExecutor("В архиве", userRepo.findByUsername(usr.getUsername())).size());
+        }
+
+
         //statementRepo.save();
         model.put("urlprefixPath", urlprefixPath);
+        model.put("usercol", mp);
         model.put("statements", statements);
         return "setexec";
     }

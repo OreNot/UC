@@ -8,7 +8,8 @@ import ucproject.domain.Organization;
 
 public interface ClientRepo extends JpaRepository<Client, Integer>{
 
-    Client findByFio(Fio fio);
-    Client findByOrganization(Organization organization);
+    Iterable<Client> findByFio(Fio fio);
+    //Client findByOrganization(Organization organization);
+    Iterable<Client> findByOrganization(Organization organization);
     Client findByFioAndOrganization(Fio fio, Organization organization);
 }

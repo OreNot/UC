@@ -2,7 +2,6 @@
 
     <@c.page>
 
-<div>Hello, user!</div>
-<div>${urlprefixPath}</div>
+<div>Добро пожаловать, ${user}!</div>
 
 </@c.page>

@@ -1,12 +1,20 @@
 <#import "parts/common.ftl" as c>
+<#include "parts/security.ftl">
 <@c.page>
-
-<div>${urlprefixPath}</div>
+<script language="JavaScript">
+    <!-- hide
+    function openNewWin(url) {
+        myWin= open(url);
+    }
+    // -->
+</script>
 <br>
 <br>
+<div class="form-row">
+    <div class="form-group col-md-6">
 <form method="get" action="allmyorders">
     <!--<input type="text" list="listOrg" name="status"  placeholder="Status">-->
-    <select  name="status"  placeholder="Status">
+    <select  name="status" class="form-control mb-2" placeholder="Status">
         <option value="В работе">В работе</option>
         <option value="Завершено">Завершено</option>
         <option value="Ждёт отправки в архив">Ждёт отправки в архив</option>
@@ -14,25 +22,32 @@
 
     </select>
     <input type="hidden" name="_csrf" value="${_csrf.token}">
-    <datalist id="listOrg">
-
-        <option value="В работе"></option>
-        <option value="Завершено"></option>
-        <option value="Ждёт отправки в архив"></option>
-        <option value="В архиве"></option>
 
 
-    </datalist>
-
-    <button type="submit">Изменить</button>
+    <button type="submit" class="btn btn-primary mb-2">Изменить</button>
 
     <div>Список заявлений</div>
-    <table border="1">
-        <tr><td>Id</td><td>Date</td><td>Org</td><td>Fio</td><td>User</td><td>type</td><td>comment</td><td>Executor</td><td>Status</td><td>File</td><td>FileLS</td><td>Radio</td></tr>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Дата</th>
+            <th scope="col">Организация</th>
+            <th scope="col">Ф.И.О</th>
+            <th scope="col">Инициатор</th>
+            <th scope="col">Тип</th>
+            <th scope="col">Комментарий</th>
+            <th scope="col">Исполнитель</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Заявление</th>
+            <th scope="col">Лицевой счет</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
         <#list statements as statement>
             <!-- <div>-->
             <tr>
-                <td>${statement.id}</td>
+                <!--<td>${statement.id}</td>-->
                 <td>${statement.regDate}</td>
                 <td>${statement.clientOrg}</td>
                 <td>${statement.clientFio}</td>
@@ -42,24 +57,22 @@
                 <td>${statement.executorName}</td>
                 <td>${statement.status}</td>
                 <td><#if statement.filename??>
-                    <a href="/orders/${statement.filename}" target="_blank">Файл заявления</a>
-                    <input type="button" value="Файл заявления" onclick="openNewWin('/orders/${statement.filename}')"></#if></td>
+                    <input type="button" value="Файл заявления" onclick="openNewWin('${prefix}/orders/${statement.filename}')"></#if></td>
                 <td><#if statement.packfilename??>
-                    <a href="/orders/${statement.packfilename}" target="_blank">ЛС</a>
-                    <input type="button" value="ЛС" onclick="openNewWin('/orders/${statement.packfilename}')"></#if></td>
+                    <input type="button" value="ЛС" onclick="openNewWin('${prefix}/orders/${statement.packfilename}')"></#if></td>
                 <td><input type="radio" name="radio" value="${statement.id}"></td>
             </tr>
             <!--</div>-->
         <#else>
-            No statements
+            Пусто
         </#list>
+        </tbody>
     </table>
 
 </form>
-
+    </div>
+</div>
 <br>
 
-<a href="addorder">Зарегистрировать заявление</a>
-<a href="addtoarchive">Отправить в архив</a>
 
 </@c.page>

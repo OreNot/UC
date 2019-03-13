@@ -1,9 +1,11 @@
 <#import "parts/common.ftl" as c>
+<#include "parts/security.ftl">
 <#import "parts/login.ftl" as l>
     <@c.page>
     <script language="JavaScript">
         <!-- hide
         function openNewWin(url) {
+            debugger;
             myWin= open(url);
         }
         // -->
@@ -33,9 +35,8 @@
             }
         }
     </script>
-    <div>${urlprefixPath}</div>
-    <img src="${urlprefixPath}/img/greenatom.png" class="rounded float-left" width="145" height="159">
-    <div>
+    <img src="${prefix}/img/greenatom.png" class="rounded float-left" width="145" height="159">
+  <!--  <div>
 
         <table class="table" title="Статистика">
             <thead>
@@ -53,6 +54,7 @@
 
         </table>
     </div>
+    -->
 
 
     <br>
@@ -63,9 +65,9 @@
         <input type="radio" class="form-check-input" name="radiofilter" onclick="radioClick(this)" value="executorfilter" checked="true">
         <!--<input type="text" id="" list="listOrg" name="filter"  placeholder="Исполнитель">-->
         <select id="executor" class="form-control" name="filter"  placeholder="Исполнитель">
-            <option value="user">user</option>
-            <option value="Лютов">Лютов</option>
-            <option value="Все">Все</option>
+            <#list usercol?keys as key>
+                <option value="${key}">${key}</option>
+            </#list>
 
         </select>
         </div>
@@ -77,17 +79,10 @@
         <br>
         <div class="form-check form-check-inline mb-1">
         <input type="radio" class="form-check-input" name="radiofilter" onclick="radioClick(this)" value="fiofilter">
-        <input type="text" id="fio"  class="form-control" name="filter"  placeholder="ФИО" disabled>
+        <input type="text" id="fio"  class="form-control" name="filter"  placeholder="Ф.И.О" disabled>
         </div>
         <input type="hidden" name="_csrf" value="${_csrf.token}">
-        <datalist id="listOrg">
-
-            <option value="2"></option>
-            <option value="user"></option>
-
-
-        </datalist>
-        <br>
+               <br>
         <button type="submit" class="btn btn-primary mb-2">Найти</button>
 
 
@@ -95,25 +90,24 @@
         <table  class="table mt-2">
             <thead>
             <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Date</th>
-                <th scope="col">Org</th>
-                <th scope="col">Fio</th>
-                <th scope="col">User</th>
-                <th scope="col">Executor</th>
-                <th scope="col">Status</th>
-                <th scope="col">comment</th>
-                <th scope="col">File</th>
-                <th scope="col">FileLS</th>
-                <th scope="col">StType</th>
-                <th scope="col">CatNum</th>
+                <th scope="col">Дата</th>
+                <th scope="col">Организация</th>
+                <th scope="col">Ф.И.О</th>
+                <th scope="col">Инициатор</th>
+                <th scope="col">Испольнитель</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Комментарий</th>
+                <th scope="col">Заявление</th>
+                <th scope="col">Лицевой счет</th>
+                <th scope="col">Тип</th>
+                <th scope="col">Номер папки</th>
             </tr>
             </thead>
            <tbody>
             <#list statements as statement>
                 <!-- <div>-->
                 <tr>
-                    <th scope="row">${statement.id}</th>
+                    <!--<th scope="row">${statement.id}</th>-->
                     <td>${statement.regDate}</td>
                     <td>${statement.clientOrg}</td>
                     <td>${statement.clientFio}</td>
@@ -122,16 +116,17 @@
                     <td>${statement.status}</td>
                     <td>${statement.comment}</td>
                     <td><#if statement.filename??>
-                        <input type="button" value="Файл заявления" onclick="openNewWin('/orders/${statement.filename}')"></#if></td>
+                   <!--     <a href="file:////orders/${statement.filename}" target="_blank">zl</a> -->
+                        <input type="button" value="Файл заявления" onclick="openNewWin('${prefix}/orders/${statement.filename}')"></#if></td>
                     <td><#if statement.packfilename??>
 
-                        <input type="button" value="ЛС" onclick="openNewWin('/orders/${statement.packfilename}')"></#if></td>
+                        <input type="button" value="ЛС" onclick="openNewWin('${prefix}/orders/${statement.packfilename}')"></#if></td>
                     <td>${statement.type}</td>
                     <td><#if statement.catalogNumber??>${statement.catalogNumber}</#if></td>
                 </tr>
                 <!--</div>-->
             <#else>
-                No statements
+                Пусто
             </#list>
             </tbody>
         </table>

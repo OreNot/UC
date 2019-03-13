@@ -1,5 +1,5 @@
 <#import "parts/common.ftl" as c>
-
+<#include "parts/security.ftl">
 <@c.page>
 
 <script language="JavaScript">
@@ -9,23 +9,46 @@
     }
     // -->
 </script>
-<div>${urlprefixPath}</div>
 <br>
 <br>
-
-<form method="post" enctype="multipart/form-data">
-    <input type="file" name="file" placeholder="Файл"/>
-    <input type="text" name="catNum" placeholder="catNum"/>
+<div class="form-row">
+    <div class="form-group col-md-6">
+    <form method="post" enctype="multipart/form-data">
+        <!--
+        <div class="custom-file">
+            <input type="file" name="file" id="customFile"/>
+            <label class="custom-file-label" for="customFile">Выберите файл</label>
+        </div>
+        -->
+        <div class="file-upload-wrapper">
+            <input type="file"  name="file" id="input-file-now" class="file-upload" />
+        </div>
+    <input type="text" name="catNum" class="form-control mb-2" placeholder="Номер папки"/>
     <input type="hidden" name="_csrf" value="${_csrf.token}">
-    <button type="submit">В архив</button>
+    <button type="submit" class="btn btn-primary mb-2">В архив</button>
 
     <div>Список заявлений</div>
-    <table border="1">
-        <tr><td>Id</td><td>Date</td><td>Org</td><td>Fio</td><td>User</td><td>comment</td><td>Executor</td><td>Status</td><td>FIle</td><td>LS</td><td>Radio</td></tr>
+        <table class="table" title="">
+            <thead>
+            <tr>
+                <th scope="col">Дата</th>
+                <th scope="col">Организация</th>
+                <th scope="col">Ф.И.О</th>
+                <th scope="col">Инициатор</th>
+                <th scope="col">Комментарий</th>
+                <th scope="col">Исполнитель</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Заявление</th>
+                <th scope="col">Лицевой счет</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+
+            <tbody>
         <#list statements as statement>
             <!-- <div>-->
             <tr>
-                <td>${statement.id}</td>
+                <!--<td>${statement.id}</td>-->
                 <td>${statement.regDate}</td>
                 <td>${statement.clientOrg}</td>
                 <td>${statement.clientFio}</td>
@@ -34,21 +57,21 @@
                 <td>${statement.executorName}</td>
                 <td>${statement.status}</td>
                 <td><#if statement.filename??>
-                    <a href="/orders/${statement.filename}" target="_blank">Файл заявления</a>
-                    <input type="button" value="Файл заявления" onclick="openNewWin('/orders/${statement.filename}')"></#if></td>
+                  <input type="button" value="Файл заявления" onclick="openNewWin('${prefix}/orders/${statement.filename}')"></#if></td>
                 <td><#if statement.packfilename??>
-                    <a href="/orders/${statement.packfilename}" target="_blank">ЛС</a>
-                    <input type="button" value="ЛС" onclick="openNewWin('/orders/${statement.packfilename}')"></#if></td>
+                   <input type="button" value="ЛС" onclick="openNewWin('${prefix}/orders/${statement.packfilename}')"></#if></td>
                 <td><input type="radio" name="radio" value="${statement.id}"></td>
             </tr>
             <!--</div>-->
         <#else>
-            No statements
+            Пусто
         </#list>
+            </tbody>
     </table>
 
 </form>
-
+    </div>
+</div>
 <br>
 
 

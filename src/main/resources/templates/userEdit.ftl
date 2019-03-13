@@ -1,10 +1,11 @@
 <#import "parts/common.ftl" as c>
+<#include "parts/security.ftl">
 
 <@c.page>
 
 User editor
 
-<form action="/user" method="post">
+<form action="${prefix}/user" method="post">
     <input type="text" value="${user.username}" name="username">
     <#list roles as role>
         <div>
