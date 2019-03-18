@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @Controller
-@PreAuthorize("hasAuthority('USER')")
+
 public class ArchiveController {
 
     @Autowired
@@ -31,6 +31,7 @@ public class ArchiveController {
     @Value("${urlprefix}")
     private String urlprefixPath;
 
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/addtoarchive")
     public String addtoarchive(
             @AuthenticationPrincipal User user,
@@ -43,16 +44,21 @@ public class ArchiveController {
         return "addtoarchive";
     }
 
+    @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/addtoarchive")
     public String addtoarchive(
             @AuthenticationPrincipal User user,
             @RequestParam(required = false, defaultValue = "0") String radio,
             @RequestParam("file") MultipartFile file,
+            @RequestParam(required = false, defaultValue = "0") String includezl,
             @RequestParam(required = false, defaultValue = "0") String catNum,
             Map<String, Object> model)
     {
 
+
         Statement statement = null;
+
+        String izl = includezl;
 
         if(!radio.equals(""))
         {
@@ -91,7 +97,11 @@ public class ArchiveController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                statement.setFilename(ordFName + catNum + fType);
+                statement.setFilename(ordFNameFirst + "_" + catNum + fType);
+                if (!includezl.equals("0") && includezl.equals("includezl"))
+                {
+                    statement.setZlfilename(resultFileName);
+                }
                 statement.setPackfilename(resultFileName);
                 statement.setStatus("В архиве");
                 statement.setCatalogNumber(catNum);
@@ -109,4 +119,147 @@ public class ArchiveController {
         return "addtoarchive";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/waitzlall")
+    public String addzl(
+            @AuthenticationPrincipal User user,
+            Map<String, Object> model)
+    {
+        Iterable<Statement> statements = statementRepo.findByZlfilenameNull();
+        model.put("urlprefixPath", urlprefixPath);
+        model.put("statements", statements);
+
+        return "waitzlall";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/waitzlall")
+    public String addzltoarchive(
+            @AuthenticationPrincipal User user,
+            @RequestParam(required = false, defaultValue = "0") String radio,
+            @RequestParam("file") MultipartFile file,
+            Map<String, Object> model)
+    {
+
+        Statement statement = null;
+
+        if(!radio.equals(""))
+        {
+            statement = statementRepo.findById(Long.parseLong(radio)).get();
+
+            if (file != null && !file.getOriginalFilename().equals(""))
+            {
+                File uploadDir = new File(uploadPath);
+
+                if (!uploadDir.exists())
+                {
+                    uploadDir.mkdir();
+                }
+
+                File fioDir = new File(uploadPath + "/" + statement.getClientFio());
+                if (!fioDir.exists())
+                {
+                    fioDir.mkdir();
+                }
+
+                //String uuidFile = UUID.randomUUID().toString();
+                String ordFNameFirst = statement.getPackfilename().substring(0, statement.getPackfilename().lastIndexOf("."));
+
+                String resultFileName = statement.getPackfilename().replaceAll("ЛС", "ЗЛ");
+
+
+                File destFile = new File(uploadPath + "/" + resultFileName);
+                try {
+                    file.transferTo(destFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                statement.setZlfilename(resultFileName);
+                statement.setStatus("В архиве");
+                statementRepo.save(statement);
+            }
+        }
+
+
+        Iterable<Statement> statements = statementRepo.findByZlfilenameNull();
+
+        model.put("statements", statements);
+
+        model.put("urlprefixPath", urlprefixPath);
+
+        return "waitzlall";
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/waitzlmy")
+    public String addzlmy(
+            @AuthenticationPrincipal User user,
+            Map<String, Object> model)
+    {
+        Iterable<Statement> statements = statementRepo.findByExecutorAndZlfilenameNull(user);
+        model.put("urlprefixPath", urlprefixPath);
+        model.put("statements", statements);
+
+        return "waitzlmy";
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @PostMapping("/waitzlmy")
+    public String addmyzltoarchive(
+            @AuthenticationPrincipal User user,
+            @RequestParam(required = false, defaultValue = "0") String radio,
+            @RequestParam("file") MultipartFile file,
+            Map<String, Object> model)
+    {
+
+        Statement statement = null;
+
+        if(!radio.equals(""))
+        {
+            statement = statementRepo.findById(Long.parseLong(radio)).get();
+
+            if (file != null && !file.getOriginalFilename().equals(""))
+            {
+                File uploadDir = new File(uploadPath);
+
+                if (!uploadDir.exists())
+                {
+                    uploadDir.mkdir();
+                }
+
+                File fioDir = new File(uploadPath + "/" + statement.getClientFio());
+                if (!fioDir.exists())
+                {
+                    fioDir.mkdir();
+                }
+
+                //String uuidFile = UUID.randomUUID().toString();
+                String ordFNameFirst = statement.getPackfilename().substring(0, statement.getPackfilename().lastIndexOf("."));
+
+                String resultFileName = statement.getPackfilename().replaceAll("ЛС", "ЗЛ");
+
+
+                File destFile = new File(uploadPath + "/" + resultFileName);
+                try {
+                    file.transferTo(destFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                statement.setZlfilename(resultFileName);
+                statement.setStatus("В архиве");
+                statementRepo.save(statement);
+            }
+        }
+
+
+        Iterable<Statement> statements = statementRepo.findByZlfilenameNull();
+
+        model.put("statements", statements);
+
+        model.put("urlprefixPath", urlprefixPath);
+
+        return "waitzlmy";
+    }
 }

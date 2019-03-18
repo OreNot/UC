@@ -13,21 +13,24 @@
 <br>
 <div class="form-row">
     <div class="form-group col-md-6">
-    <form method="post" enctype="multipart/form-data">
-        <!--
-        <div class="custom-file">
-            <input type="file" name="file" id="customFile"/>
-            <label class="custom-file-label" for="customFile">Выберите файл</label>
+    <form method="post" enctype="multipart/form-data" id="js-upload-form">
+
+
+        <div class="file-upload-wrapper mb-2">
+            <input type="file"  name="file" id="input-file-now" class="file-upload"/>
+            <label class="input-file-label" for="input-file-now">Лицевой счет</label>
         </div>
-        -->
-        <div class="file-upload-wrapper">
-            <input type="file"  name="file" id="input-file-now" class="file-upload" />
+
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" name="includezl" value="includezl" class="custom-control-input" id="defaultChecked2">
+            <label class="custom-control-label" for="defaultChecked2">Включая ЗЛ</label>
         </div>
-    <input type="text" name="catNum" class="form-control mb-2" placeholder="Номер папки"/>
+
+    <input type="text" name="catNum" class="form-control col-sm-5 mt-2 mb-2" placeholder="Номер папки"/>
     <input type="hidden" name="_csrf" value="${_csrf.token}">
     <button type="submit" class="btn btn-primary mb-2">В архив</button>
 
-    <div>Список заявлений</div>
+        <div><h4>Список заявлений</h4></div>
         <table class="table" title="">
             <thead>
             <tr>

@@ -37,6 +37,7 @@
         -->
         <div class="file-upload-wrapper">
             <input type="file"  name="file" id="input-file-now" class="file-upload" />
+            <label class="input-file-label" for="input-file-now">Заявление</label>
         </div>
 
         <input type="hidden" name="_csrf" value="${_csrf.token}">

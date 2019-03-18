@@ -64,7 +64,8 @@ public class AllOrdersController {
             statementRepo.save(updStatement);
         }
 
-        statements = statementRepo.findByStatusNotLikeAndExecutor("В архиве", user);
+        //statements = statementRepo.findByStatusNotLikeAndExecutor("В архиве", user);
+        statements = statementRepo.findByStatusNotContainingAndExecutor("архив", user);
 
 
         model.put("statements", statements);

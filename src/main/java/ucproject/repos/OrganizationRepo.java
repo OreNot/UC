@@ -9,4 +9,5 @@ public interface OrganizationRepo extends JpaRepository<Organization, Integer> {
     Organization findByOrgNameIgnoreCase(String username);
     Organization findByOrgNameLike(String username);
     Organization findByOrgNameContaining(String username);
+    Organization findByOrgNameContainingIgnoreCase(String orgname);
 }

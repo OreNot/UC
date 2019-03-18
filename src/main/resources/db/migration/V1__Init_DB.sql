@@ -25,6 +25,7 @@ create table statement (
   filename varchar(255),
   type varchar(255),
   packfilename varchar(255),
+  zlfilename varchar(255),
   reg_date timestamp,
   status varchar(255),
   catalog_number varchar(255),

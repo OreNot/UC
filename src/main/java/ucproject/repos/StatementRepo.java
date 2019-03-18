@@ -18,7 +18,10 @@ public interface StatementRepo extends CrudRepository<Statement, Integer> {
     List<Statement> findByExecutorNull();
     List<Statement> findByStatusAndExecutor(String status, User user);
     List<Statement> findByStatusNotLikeAndExecutor(String status, User user);
+    List<Statement> findByStatusNotContainingAndExecutor(String status, User user);
     List<Statement> findByClient(Client client);
+    List<Statement> findByZlfilenameNull();
+    List<Statement> findByExecutorAndZlfilenameNull(User executor);
 
 
 }

@@ -10,7 +10,7 @@ import ucproject.domain.*;
 import ucproject.repos.*;
 
 import java.util.*;
-
+//upload.path = \\\\gren-wd-000318\\OrdStorage
 @Controller
 @PreAuthorize("hasAuthority('ADMIN')")
 public class AdminController {
@@ -68,7 +68,8 @@ public class AdminController {
                 break;
 
                 case  "orgfilter" :
-                    Organization upOrg = organizationRepo.findByOrgNameContaining(filter.replaceAll(",", ""));
+                    Organization upOrg = organizationRepo.findByOrgNameContainingIgnoreCase(filter.replaceAll(",", ""));
+                    //Organization upOrg = organizationRepo.findByOrgNameContaining(filter.replaceAll(",", ""));
                     List<Client> upClientsByOrg = (List<Client>) clientRepo.findByOrganization(upOrg);
                     statements.clear();
                     List<Statement> updStatements = new ArrayList<>();
@@ -89,7 +90,7 @@ public class AdminController {
                     break;
 
                 case  "fiofilter" :
-                    Fio updFio = fioRepo.findByFioContaining(filter.replaceAll(",", ""));
+                    Fio updFio = fioRepo.findByFioContainingIgnoreCase(filter.replaceAll(",", ""));
                     List<Client> upClientsByFio = (List<Client>) clientRepo.findByFio(updFio);
                     //Client upClientByFio = clientRepo.findByFio(updFio);
                     statements.clear();
@@ -175,4 +176,6 @@ public class AdminController {
         model.put("statements", statements);
         return "setexec";
     }
+
+
 }

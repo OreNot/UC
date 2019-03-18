@@ -16,6 +16,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="${prefix}/setexec">Назначить</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="${prefix}/waitzlall">Ждёт ЗЛ все</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="${prefix}/user">SA</a>
                 </li>
@@ -28,6 +32,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="${prefix}/addtoarchive">В архив</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${prefix}/waitzlmy">Ждёт ЗЛ мои</a>
                 </li>
                <!-- <li class="nav-item">
                 <a class="nav-link" href="${prefix}/user/profile">Профиль</a>

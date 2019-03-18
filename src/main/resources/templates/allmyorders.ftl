@@ -10,10 +10,13 @@
 </script>
 <br>
 <br>
+
 <div class="form-row">
     <div class="form-group col-md-6">
 <form method="get" action="allmyorders">
     <!--<input type="text" list="listOrg" name="status"  placeholder="Status">-->
+    <div class="form-row align-items-center">
+        <div class="col-auto">
     <select  name="status" class="form-control mb-2" placeholder="Status">
         <option value="В работе">В работе</option>
         <option value="Завершено">Завершено</option>
@@ -21,20 +24,23 @@
         <option value="В архиве">В архиве</option>
 
     </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-2">Изменить</button>
+        </div>
+    </div>
     <input type="hidden" name="_csrf" value="${_csrf.token}">
 
 
-    <button type="submit" class="btn btn-primary mb-2">Изменить</button>
-
-    <div>Список заявлений</div>
+    <div><h4>Список заявлений</h4></div>
     <table class="table">
         <thead>
         <tr>
             <th scope="col">Дата</th>
             <th scope="col">Организация</th>
             <th scope="col">Ф.И.О</th>
-            <th scope="col">Инициатор</th>
             <th scope="col">Тип</th>
+            <th scope="col">Инициатор</th>
             <th scope="col">Комментарий</th>
             <th scope="col">Исполнитель</th>
             <th scope="col">Статус</th>
@@ -51,8 +57,8 @@
                 <td>${statement.regDate}</td>
                 <td>${statement.clientOrg}</td>
                 <td>${statement.clientFio}</td>
-                <td>${statement.authorName}</td>
                 <td>${statement.type}</td>
+                <td>${statement.authorName}</td>
                 <td>${statement.comment}</td>
                 <td>${statement.executorName}</td>
                 <td>${statement.status}</td>

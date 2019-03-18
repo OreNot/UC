@@ -64,12 +64,14 @@
         <div class="form-check form-check-inline mb-1">
         <input type="radio" class="form-check-input" name="radiofilter" onclick="radioClick(this)" value="executorfilter" checked="true">
         <!--<input type="text" id="" list="listOrg" name="filter"  placeholder="Исполнитель">-->
+
         <select id="executor" class="form-control" name="filter"  placeholder="Исполнитель">
             <#list usercol?keys as key>
                 <option value="${key}">${key}</option>
             </#list>
 
         </select>
+
         </div>
         <br>
         <div class="form-check form-check-inline mb-1">
@@ -86,21 +88,24 @@
         <button type="submit" class="btn btn-primary mb-2">Найти</button>
 
 
-        <div>Список заявлений</div>
+        <div><h4>Список заявлений</h4></div>
         <table  class="table mt-2">
             <thead>
             <tr>
                 <th scope="col">Дата</th>
                 <th scope="col">Организация</th>
                 <th scope="col">Ф.И.О</th>
+                <th scope="col">Тип</th>
                 <th scope="col">Инициатор</th>
+                <th scope="col">Комментарий</th>
                 <th scope="col">Испольнитель</th>
                 <th scope="col">Статус</th>
-                <th scope="col">Комментарий</th>
+                <th scope="col">Номер папки</th>
                 <th scope="col">Заявление</th>
                 <th scope="col">Лицевой счет</th>
-                <th scope="col">Тип</th>
-                <th scope="col">Номер папки</th>
+                <th scope="col">ЗЛ</th>
+
+
             </tr>
             </thead>
            <tbody>
@@ -111,18 +116,22 @@
                     <td>${statement.regDate}</td>
                     <td>${statement.clientOrg}</td>
                     <td>${statement.clientFio}</td>
+                    <td>${statement.type}</td>
                     <td>${statement.authorName}</td>
+                    <td>${statement.comment}</td>
                     <td>${statement.executorName}</td>
                     <td>${statement.status}</td>
-                    <td>${statement.comment}</td>
+                    <td><#if statement.catalogNumber??>${statement.catalogNumber}</#if></td>
                     <td><#if statement.filename??>
                    <!--     <a href="file:////orders/${statement.filename}" target="_blank">zl</a> -->
                         <input type="button" value="Файл заявления" onclick="openNewWin('${prefix}/orders/${statement.filename}')"></#if></td>
                     <td><#if statement.packfilename??>
 
                         <input type="button" value="ЛС" onclick="openNewWin('${prefix}/orders/${statement.packfilename}')"></#if></td>
-                    <td>${statement.type}</td>
-                    <td><#if statement.catalogNumber??>${statement.catalogNumber}</#if></td>
+                    <td><#if statement.zlfilename??>
+
+                        <input type="button" value="ЗЛ" onclick="openNewWin('${prefix}/orders/${statement.zlfilename}')"></#if></td>
+
                 </tr>
                 <!--</div>-->
             <#else>

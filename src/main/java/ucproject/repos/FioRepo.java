@@ -7,4 +7,5 @@ public interface FioRepo extends JpaRepository<Fio, Integer> {
     Fio findByFio(String fio);
     Fio findByFioIgnoreCase(String fio);
     Fio findByFioContaining(String fio);
+    Fio findByFioContainingIgnoreCase(String fio);
 }

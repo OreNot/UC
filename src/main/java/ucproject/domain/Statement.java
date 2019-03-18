@@ -38,6 +38,8 @@ public class Statement {
 
     private String packfilename;
 
+    private String zlfilename;
+
     private String catalogNumber;
 
     public Statement() {
@@ -54,6 +56,13 @@ public class Statement {
 
     }
 
+    public String getZlfilename() {
+        return zlfilename;
+    }
+
+    public void setZlfilename(String zlfilename) {
+        this.zlfilename = zlfilename;
+    }
 
     public String getCatalogNumber() {
         return catalogNumber;
