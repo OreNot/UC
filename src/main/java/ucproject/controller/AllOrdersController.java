@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import ucproject.domain.*;
 import ucproject.repos.*;
+import ucproject.service.InnCheckService;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,11 +58,18 @@ public class AllOrdersController {
 
         Statement updStatement;
 
-        if (!status.equals("") && !radio.equals(""))
-        {
+        if (!status.equals("") && !radio.equals("")) {
             updStatement = statementRepo.findById(Long.parseLong(radio)).get();
-            updStatement.setStatus(status);
-            statementRepo.save(updStatement);
+            if (status.equals("Отклонено"))
+            {
+                updStatement.setStatus("В архиве");
+                updStatement.setComment(updStatement.getComment() + " Отклонено");
+                statementRepo.save(updStatement);
+            }
+            else {
+                updStatement.setStatus(status);
+                statementRepo.save(updStatement);
+            }
         }
 
         //statements = statementRepo.findByStatusNotLikeAndExecutor("В архиве", user);
@@ -97,6 +105,7 @@ public class AllOrdersController {
             @RequestParam String fio,
             @RequestParam String organization,
             @RequestParam String type,
+            @RequestParam(required = false, defaultValue = "0") String inn,
             @RequestParam("file") MultipartFile file,
             Map<String, Object> model) {
 
@@ -132,6 +141,24 @@ public class AllOrdersController {
             newClient = clientRepo.findByFioAndOrganization(newFio, newOrg);
         }
         clientRepo.save(newClient);
+
+
+        if (!inn.equals("0"))
+        {
+            if (inn.startsWith("00"))
+            {
+                inn = inn.substring(2, inn.length());
+            }
+
+            Suggestions suggestions = new Suggestions();
+            InnCheckService service = new InnCheckService();
+            suggestions = service.jsonParsing(service.sendingPost(inn.trim().replaceAll(" ", "").replaceAll("_", "").replaceAll("[a-zA-Zа-яА-Я]*", "")));
+
+            if (suggestions.getSuggestions() != null) {
+                comment = comment + " Проверка по ЕГРЮЛ Краткое имя: " + suggestions.getSuggestions().get(0).getData().getName().getShort_with_opf() +
+                        " ОГРН: " + suggestions.getSuggestions().get(0).getData().getOgrn();
+            }
+        }
 
         Statement statement = new Statement(user, newClient, type, comment, "Зарегистрировано");
 

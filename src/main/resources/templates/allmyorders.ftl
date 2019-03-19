@@ -22,6 +22,7 @@
         <option value="Завершено">Завершено</option>
         <option value="Ждёт отправки в архив">Ждёт отправки в архив</option>
         <option value="В архиве">В архиве</option>
+        <option value="Отклонено">Отклонено</option>
 
     </select>
         </div>

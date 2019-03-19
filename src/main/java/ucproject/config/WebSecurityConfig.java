@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/registration", "/UC/registration", "/main").permitAll()
+                    .antMatchers("/", "/registration", "/UC/registration", "/main", "/UC/js", "/js", "/10.161.194.21:8080/UC/js", "/localhost:8080/UC/js", "/js/jquery-3.3.1.slim.min.js", "/js/popper.min.js", "/js/bootstrap.min.js", "/js/bootstrap.min.css").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()

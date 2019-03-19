@@ -55,8 +55,18 @@ public class UserController {
                            @RequestParam Map<String, String> form,
                            @RequestParam String username)
     {
-        Fio upFio = new Fio(fio);
-        fioRepo.save(upFio);
+        Fio upFio;
+        if (fioRepo.findByFioIgnoreCase(fio.trim()) == null || fioRepo.findByFioIgnoreCase(fio.trim()).equals(""))
+        {
+            upFio = new Fio(fio.trim());
+            fioRepo.save(upFio);
+        }
+        else
+        {
+            upFio = fioRepo.findByFioIgnoreCase(fio.trim());
+        }
+        //Fio upFio = new Fio(fio);
+       // fioRepo.save(upFio);
         user.setUsername(username);
         user.setFio(upFio);
 

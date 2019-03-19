@@ -1,7 +1,7 @@
 <#macro login path isRegisterForm>
     <#include "security.ftl">
-<!-- <form action="${prefix}${path}" method="post">-->
-                          <form action="${path}" method="post">
+<form action="${prefix}${path}" method="post">
+        <!--  <form action="${path}" method="post"> -->
     <div class="form-group row mt-3">
         <label class="col-sm-2 col-form-label"> Логин : </label>
         <div class="col-sm-3">

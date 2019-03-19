@@ -14,7 +14,19 @@
         </div>
         <div class="form-group row mt-3">
             <div class="col-sm-9">
+                <input type="text" class="form-control" name="inn" placeholder="ИНН"/>
+            </div>
+        </div>
+        <!--<div class="form-group row mt-3">
+            <div class="col-sm-9">
         <input type="text" class="form-control" name="comment" placeholder="Комментарий"/>
+            </div>
+        </div>
+        -->
+        <div class="form-group row mt-3">
+            <div class="col-sm-9">
+            <label for="exampleFormControlTextarea1">Комментарий</label>
+            <textarea class="form-control" name="comment" rows="3"></textarea>
             </div>
         </div>
             <div class="form-group row mt-3">
